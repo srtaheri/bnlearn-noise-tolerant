@@ -1,6 +1,6 @@
 
 si.hiton.pc.optimized = function(x, whitelist, blacklist, test, alpha, B,
-    max.sx = ncol(x), strict, complete, debug = FALSE) {
+    max.sx = ncol(x), strict, complete, debug = FALSE, noise.levels = NULL) {
 
   nodes = names(x)
   mb = list()
@@ -13,14 +13,14 @@ si.hiton.pc.optimized = function(x, whitelist, blacklist, test, alpha, B,
     mb[[node]] = si.hiton.pc.heuristic(node, data = x, nodes = nodes,
          alpha = alpha, B = B, whitelist = whitelist, blacklist = blacklist,
          backtracking = backtracking, test = test, max.sx = max.sx,
-         complete = complete, debug = debug)
+         complete = complete, debug = debug, noise.levels = noise.levels)
 
     # 2. [Backward Phase (II)]
     mb[[node]] = neighbour(node, mb = mb, data = x, alpha = alpha,
          B = B, whitelist = whitelist, blacklist = blacklist,
          backtracking = backtracking, test = test, debug = debug,
          max.sx = max.sx, empty.dsep = FALSE, markov = FALSE,
-         complete = complete)
+         complete = complete, noise.levels = noise.levels)
 
   }#FOR
 
@@ -37,7 +37,8 @@ si.hiton.pc.optimized = function(x, whitelist, blacklist, test, alpha, B,
 }#SI.HITON.PC.OPTIMIZED
 
 si.hiton.pc.backend = function(x, cluster = NULL, whitelist, blacklist,
-  test, alpha, B, max.sx = ncol(x), strict, complete, debug = FALSE) {
+  test, alpha, B, max.sx = ncol(x), strict, complete, debug = FALSE,
+  noise.levels = NULL) {
 
   nodes = names(x)
 
@@ -45,14 +46,14 @@ si.hiton.pc.backend = function(x, cluster = NULL, whitelist, blacklist,
   mb = smartSapply(cluster, as.list(nodes), si.hiton.pc.heuristic, data = x,
          nodes = nodes, alpha = alpha, B = B, whitelist = whitelist,
          blacklist = blacklist, test = test, max.sx = max.sx,
-         complete = complete, debug = debug)
+         complete = complete, debug = debug, noise.levels = noise.levels)
   names(mb) = nodes
 
   # 2. [Backward Phase (II)]
   mb = smartSapply(cluster, as.list(nodes), neighbour, mb = mb, data = x,
          alpha = alpha, B = B, whitelist = whitelist, blacklist = blacklist,
          test = test, debug = debug, max.sx = max.sx, empty.dsep = FALSE,
-         markov = FALSE, complete = complete)
+         markov = FALSE, complete = complete, noise.levels = noise.levels)
   names(mb) = nodes
 
   # make up a set of believable Markov blankets, using all the nodes within
@@ -68,7 +69,8 @@ si.hiton.pc.backend = function(x, cluster = NULL, whitelist, blacklist,
 }#SI.HITON.PC.BACKEND
 
 si.hiton.pc.heuristic = function(x, data, nodes, alpha, B, whitelist, blacklist,
-    backtracking = NULL, test, max.sx = ncol(x), complete, debug = FALSE) {
+    backtracking = NULL, test, max.sx = ncol(x), complete, debug = FALSE,
+    noise.levels = NULL) {
 
   nodes = nodes[nodes != x]
   known.good = known.bad = c()
@@ -120,7 +122,8 @@ si.hiton.pc.heuristic = function(x, data, nodes, alpha, B, whitelist, blacklist,
 
       candidate = si.hiton.pc.backward(target = x, candidate = cpn,
                     cpc = cpc[cpc != cpn], data = data, test = test,
-                    alpha = alpha, B = B, complete = complete, debug = debug)
+                    alpha = alpha, B = B, complete = complete, debug = debug,
+                    noise.levels = noise.levels)
 
       if (candidate) {
 
@@ -205,7 +208,7 @@ si.hiton.pc.heuristic = function(x, data, nodes, alpha, B, whitelist, blacklist,
     # the current Markov blanket.
     candidate = si.hiton.pc.backward(target = x, candidate = to.add, cpc = cpc,
                   data = data, test = test, alpha = alpha, B = B,
-                  complete = complete, debug = debug)
+                  complete = complete, debug = debug, noise.levels = noise.levels)
 
     if (candidate) {
 
@@ -234,7 +237,7 @@ si.hiton.pc.heuristic = function(x, data, nodes, alpha, B, whitelist, blacklist,
 
 # backward stage of HITON-PC.
 si.hiton.pc.backward = function(target, candidate, cpc, data, test, alpha, B,
-    complete, debug) {
+    complete, debug, noise.levels = NULL) {
 
   # the nodes are always marginally associated, otherwise the candidate would
   # not have been chosen as such.
@@ -245,7 +248,8 @@ si.hiton.pc.backward = function(target, candidate, cpc, data, test, alpha, B,
     cat("* backward phase for candidate node", candidate, ".\n")
 
   a = allsubs.test(x = target, y = candidate, sx = cpc, min = 1L, data = data,
-        test = test, alpha = alpha, B = B, complete = complete, debug = debug)
+        test = test, alpha = alpha, B = B, complete = complete, debug = debug,
+        noise.levels = noise.levels)
 
   return(a["p.value"] <= alpha)
 

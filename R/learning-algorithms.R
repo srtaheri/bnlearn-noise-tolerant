@@ -195,7 +195,7 @@ bnlearn = function(x, cluster = NULL, whitelist = NULL, blacklist = NULL,
         si.hiton.pc.optimized(x = x, whitelist = whitelist,
           blacklist = full.blacklist, test = test, alpha = alpha, B = B,
           max.sx = max.sx, strict = strict, debug = debug,
-          complete = data.info$complete.nodes)
+          complete = data.info$complete.nodes, noise.levels = noise.levels)
 
     }#THEN
     else {
@@ -204,7 +204,8 @@ bnlearn = function(x, cluster = NULL, whitelist = NULL, blacklist = NULL,
         si.hiton.pc.backend(x = x, whitelist = whitelist,
           blacklist = full.blacklist, test = test, alpha = alpha, B = B,
           max.sx = max.sx, strict = strict, debug = debug,
-          cluster = cluster, complete = data.info$complete.nodes)
+          cluster = cluster, complete = data.info$complete.nodes,
+          noise.levels = noise.levels)
 
     }#ELSE
 
