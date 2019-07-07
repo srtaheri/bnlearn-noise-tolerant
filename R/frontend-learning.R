@@ -28,36 +28,39 @@ gs = function(x, cluster = NULL, whitelist = NULL, blacklist = NULL,
 # Incremental Association frontend.
 iamb = function(x, cluster = NULL, whitelist = NULL, blacklist = NULL,
     test = NULL, alpha = 0.05, B = NULL, max.sx = NULL, debug = FALSE,
-    optimized = FALSE, strict = FALSE, undirected = FALSE) {
+    optimized = FALSE, strict = FALSE, undirected = FALSE, noise.levels = NULL) {
 
   bnlearn(x = x, cluster = cluster, whitelist = whitelist,
     blacklist = blacklist, test = test, alpha = alpha, B = B,
     max.sx = max.sx, method = "iamb", debug = debug,
-    optimized = optimized, strict = strict, undirected = undirected)
+    optimized = optimized, strict = strict, undirected = undirected, 
+    noise.levels = noise.levels)
 
 }#IAMB
 
 # Fast-IAMB frontend.
 fast.iamb = function(x, cluster = NULL, whitelist = NULL, blacklist = NULL,
     test = NULL, alpha = 0.05, B = NULL, max.sx = NULL, debug = FALSE,
-    optimized = FALSE, strict = FALSE, undirected = FALSE) {
+    optimized = FALSE, strict = FALSE, undirected = FALSE, noise.levels = NULL) {
 
   bnlearn(x = x, cluster = cluster, whitelist = whitelist,
     blacklist = blacklist, test = test, alpha = alpha, B = B,
     max.sx = max.sx, method = "fast.iamb", debug = debug,
-    optimized = optimized, strict = strict, undirected = undirected)
+    optimized = optimized, strict = strict, undirected = undirected,
+    noise.levels = noise.levels)
 
 }#FAST.IAMB
 
 # Inter-IAMB frontend.
 inter.iamb = function(x, cluster = NULL, whitelist = NULL, blacklist = NULL,
     test = NULL, alpha = 0.05, B = NULL,  max.sx = NULL, debug = FALSE,
-    optimized = FALSE, strict = FALSE, undirected = FALSE) {
+    optimized = FALSE, strict = FALSE, undirected = FALSE, noise.levels = NULL) {
 
   bnlearn(x = x, cluster = cluster, whitelist = whitelist,
     blacklist = blacklist, test = test, alpha = alpha, B = B,
     max.sx = max.sx, method = "inter.iamb", debug = debug,
-    optimized = optimized, strict = strict, undirected = undirected)
+    optimized = optimized, strict = strict, undirected = undirected,
+    noise.levels = noise.levels)
 
 }#INTER.IAMB
 

@@ -1,6 +1,7 @@
 
 incremental.association.optimized = function(x, whitelist, blacklist, test,
-  alpha, B, max.sx = ncol(x), strict, complete, debug = FALSE) {
+  alpha, B, max.sx = ncol(x), strict, complete, debug = FALSE, 
+  noise.levels = NULL) {
 
   nodes = names(x)
   mb2 = mb = list()
@@ -13,7 +14,7 @@ incremental.association.optimized = function(x, whitelist, blacklist, test,
     mb[[node]] = ia.markov.blanket(node, data = x, nodes = nodes,
          alpha = alpha, B = B, whitelist = whitelist, blacklist = blacklist,
          backtracking = backtracking, test = test, max.sx = max.sx,
-         complete = complete, debug = debug)
+         complete = complete, debug = debug, noise.levels = noise.levels)
 
   }#FOR
 
@@ -29,7 +30,7 @@ incremental.association.optimized = function(x, whitelist, blacklist, test,
     mb2[[node]] = neighbour(node, mb = mb, data = x, alpha = alpha,
          B = B, whitelist = whitelist, blacklist = blacklist,
          backtracking = backtracking, test = test, max.sx = max.sx,
-         complete = complete, debug = debug)
+         complete = complete, debug = debug, noise.levels = noise.levels)
 
   }#FOR
 
@@ -44,7 +45,8 @@ incremental.association.optimized = function(x, whitelist, blacklist, test,
 }#INCREMENTAL.ASSOCIATION.OPTIMIZED
 
 incremental.association = function(x, cluster = NULL, whitelist, blacklist,
-  test, alpha, B, max.sx = ncol(x), strict, complete, debug = FALSE) {
+  test, alpha, B, max.sx = ncol(x), strict, complete, debug = FALSE,
+  noise.levels = NULL) {
 
   nodes = names(x)
 
@@ -52,7 +54,7 @@ incremental.association = function(x, cluster = NULL, whitelist, blacklist,
   mb = smartSapply(cluster, as.list(nodes), ia.markov.blanket, data = x,
          nodes = nodes, alpha = alpha, B = B, whitelist = whitelist,
          blacklist = blacklist, test = test, max.sx = max.sx,
-         complete = complete, debug = debug)
+         complete = complete, debug = debug, noise.levels = noise.levels)
   names(mb) = nodes
 
   # check markov blankets for consistency.
@@ -61,7 +63,8 @@ incremental.association = function(x, cluster = NULL, whitelist, blacklist,
   # 2. [Compute Graph Structure]
   mb = smartSapply(cluster, as.list(nodes), neighbour, mb = mb, data = x,
          alpha = alpha, B = B, whitelist = whitelist, blacklist = blacklist,
-         test = test, max.sx = max.sx, complete = complete, debug = debug)
+         test = test, max.sx = max.sx, complete = complete, debug = debug,
+         noise.levels = noise.levels)
   names(mb) = nodes
 
   # check neighbourhood sets for consistency.
@@ -73,7 +76,7 @@ incremental.association = function(x, cluster = NULL, whitelist, blacklist,
 
 ia.markov.blanket = function(x, data, nodes, alpha, B, whitelist, blacklist,
   start = character(0), backtracking = NULL, test, max.sx = ncol(x), complete,
-  debug = FALSE) {
+  debug = FALSE, noise.levels = NULL) {
 
   nodes = nodes[nodes != x]
   known.good = known.bad = c()

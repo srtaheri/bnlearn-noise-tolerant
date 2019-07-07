@@ -103,7 +103,7 @@ bnlearn = function(x, cluster = NULL, whitelist = NULL, blacklist = NULL,
         incremental.association.optimized(x = x, whitelist = whitelist,
           blacklist = full.blacklist, test = test, alpha = alpha, B = B,
           max.sx = max.sx, strict = strict, debug = debug,
-          complete = data.info$complete.nodes)
+          complete = data.info$complete.nodes, noise.levels = noise.levels)
 
     }#THEN
     else {
@@ -112,7 +112,8 @@ bnlearn = function(x, cluster = NULL, whitelist = NULL, blacklist = NULL,
         incremental.association(x = x, whitelist = whitelist,
           blacklist = full.blacklist, test = test, alpha = alpha, B = B,
           max.sx = max.sx, strict = strict, debug = debug,
-          cluster = cluster, complete = data.info$complete.nodes)
+          cluster = cluster, complete = data.info$complete.nodes, 
+          noise.levels = noise.levels)
 
     }#ELSE
 
@@ -125,7 +126,7 @@ bnlearn = function(x, cluster = NULL, whitelist = NULL, blacklist = NULL,
         fast.incremental.association.optimized(x = x, whitelist = whitelist,
           blacklist = full.blacklist, test = test, alpha = alpha, B = B,
           max.sx = max.sx, strict = strict, debug = debug,
-          complete = data.info$complete.nodes)
+          complete = data.info$complete.nodes, noise.levels = noise.levels)
 
     }#THEN
     else {
@@ -134,7 +135,8 @@ bnlearn = function(x, cluster = NULL, whitelist = NULL, blacklist = NULL,
         fast.incremental.association(x = x, whitelist = whitelist,
           blacklist = full.blacklist, test = test, alpha = alpha, B = B,
           max.sx = max.sx, strict = strict, debug = debug,
-          cluster = cluster, complete = data.info$complete.nodes)
+          cluster = cluster, complete = data.info$complete.nodes,
+          noise.levels = noise.levels)
 
     }#ELSE
 
@@ -147,7 +149,7 @@ bnlearn = function(x, cluster = NULL, whitelist = NULL, blacklist = NULL,
         inter.incremental.association.optimized(x = x, whitelist = whitelist,
           blacklist = full.blacklist, test = test, alpha = alpha, B = B,
           max.sx = max.sx, strict = strict, debug = debug,
-          complete = data.info$complete.nodes)
+          complete = data.info$complete.nodes, noise.levels = noise.levels)
 
     }#THEN
     else {
@@ -156,7 +158,8 @@ bnlearn = function(x, cluster = NULL, whitelist = NULL, blacklist = NULL,
         inter.incremental.association(x = x, whitelist = whitelist,
           blacklist = full.blacklist, test = test, alpha = alpha, B = B,
           max.sx = max.sx, strict = strict, debug = debug,
-          cluster = cluster, complete = data.info$complete.nodes)
+          cluster = cluster, complete = data.info$complete.nodes,
+          noise.levels = noise.levels)
 
     }#ELSE
 
