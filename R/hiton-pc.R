@@ -159,7 +159,8 @@ si.hiton.pc.heuristic = function(x, data, nodes, alpha, B, whitelist, blacklist,
 
   # get a marginal association measure for each of the available nodes.
   association = indep.test(nodes, x, sx = character(0), test = test,
-                  data = data, B = B, alpha = alpha, complete = complete)
+                  data = data, B = B, alpha = alpha, complete = complete,
+                  noise.levels = noise.levels)
 
   to.keep = names(association[association <= alpha])
   to.drop = names(association[association > alpha])

@@ -2,7 +2,7 @@
 # conditional and unconditional independence tests (vectorized in x, scalar
 # in y).
 indep.test = function(x, y, sx, data, test, B = 0L, alpha = 1, learning = TRUE,
-    complete) {
+    complete, noise.levels = NULL) {
 
   .Call(call_indep_test,
         x = x,
@@ -41,7 +41,7 @@ allsubs.test = function(x, y, sx, fixed = character(0), data, test, B = 0L,
 
 # test each variable in turn given the rest as a conditioning set.
 roundrobin.test = function(x, z, fixed, data, test, B = 0L, alpha = 1,
-    complete, debug = FALSE) {
+    complete, debug = FALSE, noise.levels = NULL) {
 
   if (length(z) == 0)
     return(structure(numeric(0), names = character(0)))

@@ -152,7 +152,7 @@ gs.markov.blanket = function(x, data, nodes, alpha, B, whitelist, blacklist,
 
 
       a = indep.test(x, y, mb, data = data, test = test, B = B,
-            alpha = alpha, complete = complete)
+            alpha = alpha, complete = complete, noise.levels = noise.levels)
 
       if (a <= alpha) {
 
@@ -202,7 +202,7 @@ gs.markov.blanket = function(x, data, nodes, alpha, B, whitelist, blacklist,
         cat("  * checking node", y, "for exclusion (shrinking phase).\n")
 
       a = indep.test(x, y, mb[mb != y], data = data, test = test, B = B,
-            alpha = alpha, complete = complete)
+            alpha = alpha, complete = complete, noise.levels = noise.levels)
 
       if (a > alpha) {
 

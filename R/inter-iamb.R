@@ -149,7 +149,7 @@ inter.ia.markov.blanket = function(x, data, nodes, alpha, B, whitelist,
     # get an association measure for each of the available nodes.
     association = indep.test(nodes[nodes %!in% c(mb, culprit)], x, sx = mb,
                     test = test, data = data, B = B, alpha = alpha,
-                    complete = complete)
+                    complete = complete, noise.levels = noise.levels)
 
     # stop if there are no candidates for inclusion; the markov blanket
     # would obviously be unchanged.
@@ -182,7 +182,8 @@ inter.ia.markov.blanket = function(x, data, nodes, alpha, B, whitelist,
     fixed = fixed[fixed != ""]
 
     pv = roundrobin.test(x = x, z = mb, fixed = fixed, data = data, test = test,
-           B = B, alpha = alpha, complete = complete, debug = debug)
+           B = B, alpha = alpha, complete = complete, debug = debug,
+           noise.levels = noise.levels)
 
     mb = intersect(mb, c(names(pv[pv < alpha]), fixed))
 

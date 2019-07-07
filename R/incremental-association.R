@@ -149,7 +149,8 @@ ia.markov.blanket = function(x, data, nodes, alpha, B, whitelist, blacklist,
 
     # get an association measure for each of the available nodes.
     association = indep.test(nodes, x, sx = mb, test = test, data = data,
-                    B = B, alpha = alpha, complete = complete)
+                    B = B, alpha = alpha, complete = complete,
+                    noise.levels = noise.levels)
 
     if (debug) {
 
@@ -194,7 +195,8 @@ ia.markov.blanket = function(x, data, nodes, alpha, B, whitelist, blacklist,
   fixed = fixed[fixed != ""]
 
   pv = roundrobin.test(x = x, z = mb, fixed = fixed, data = data, test = test,
-         B = B, alpha = alpha, complete = complete, debug = debug)
+         B = B, alpha = alpha, complete = complete, debug = debug,
+         noise.levels = noise.levels)
 
   return(intersect(mb, c(names(pv[pv < alpha]), fixed)))
 
