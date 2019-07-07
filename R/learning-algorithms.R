@@ -70,7 +70,7 @@ bnlearn = function(x, cluster = NULL, whitelist = NULL, blacklist = NULL,
       pc.stable.backend(x = x, whitelist = whitelist,
         blacklist = full.blacklist, test = test, alpha = alpha, B = B,
         max.sx = max.sx, debug = debug, cluster = cluster,
-        complete = data.info$complete.nodes)
+        complete = data.info$complete.nodes, noise.levels = noise.levels)
 
   }#THEN
   else if (method == "gs") {
