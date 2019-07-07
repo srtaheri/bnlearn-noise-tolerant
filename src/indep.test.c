@@ -12,7 +12,7 @@ SEXP indep_test(SEXP x, SEXP y, SEXP sx, SEXP data, SEXP test, SEXP B,
 
   /* filter for NULL and empty strings to make it easy to interface with R. */
   if (length(sx) == 0 || sx == R_NilValue)
-    return utest(x, y, data, test, B, alpha, learning, complete);
+    return utest(x, y, data, test, B, alpha, learning, complete, noise_levels);
   else
     return ctest(x, y, sx, data, test, B, alpha, learning, complete);
 

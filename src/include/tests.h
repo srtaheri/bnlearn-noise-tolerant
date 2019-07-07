@@ -57,7 +57,7 @@ SEXP indep_test(SEXP x, SEXP y, SEXP sx, SEXP data, SEXP test, SEXP B,
 
 /* conditional independence tests. */
 SEXP utest(SEXP x, SEXP y, SEXP data, SEXP test, SEXP B, SEXP alpha,
-    SEXP learning, SEXP complete);
+    SEXP learning, SEXP complete, SEXP noise_levels);
 SEXP ctest(SEXP x, SEXP y, SEXP sx, SEXP data, SEXP test, SEXP B, SEXP alpha,
     SEXP learning, SEXP complete);
 
