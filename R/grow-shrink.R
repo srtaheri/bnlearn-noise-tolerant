@@ -1,6 +1,6 @@
 
 grow.shrink.optimized = function(x, whitelist, blacklist, test, alpha,
-  B, max.sx = ncol(x), strict, complete, debug = FALSE) {
+  B, max.sx = ncol(x), strict, complete, debug = FALSE, noise.levels = NULL) {
 
   nodes = names(x)
   mb2 = mb = list()
@@ -13,7 +13,7 @@ grow.shrink.optimized = function(x, whitelist, blacklist, test, alpha,
     mb[[node]] = gs.markov.blanket(node, data = x, nodes = nodes,
          alpha = alpha, B = B, whitelist = whitelist, blacklist = blacklist,
          backtracking = backtracking, test = test, max.sx = max.sx,
-         complete = complete, debug = debug)
+         complete = complete, debug = debug, noise.levels = noise.levels)
 
   }#FOR
 
@@ -29,7 +29,7 @@ grow.shrink.optimized = function(x, whitelist, blacklist, test, alpha,
     mb2[[node]] = neighbour(node, mb = mb, data = x, alpha = alpha,
          B = B, whitelist = whitelist, blacklist = blacklist,
          backtracking = backtracking, test = test, max.sx = max.sx,
-         complete = complete, debug = debug)
+         complete = complete, debug = debug, noise.levels = noise.levels)
 
   }#FOR
 
@@ -44,7 +44,7 @@ grow.shrink.optimized = function(x, whitelist, blacklist, test, alpha,
 }#GROW.SHRINK.OPTIMIZED
 
 grow.shrink = function(x, cluster = NULL, whitelist, blacklist, test, alpha, B,
-  strict, max.sx = ncol(x), complete, debug = FALSE) {
+  strict, max.sx = ncol(x), complete, debug = FALSE, noise.levels = NULL) {
 
   nodes = names(x)
 
@@ -52,7 +52,7 @@ grow.shrink = function(x, cluster = NULL, whitelist, blacklist, test, alpha, B,
   mb = smartSapply(cluster, as.list(nodes), gs.markov.blanket, data = x,
          nodes = nodes, alpha = alpha, B = B, whitelist = whitelist,
          blacklist = blacklist, test = test, max.sx = max.sx,
-         complete = complete, debug = debug)
+         complete = complete, debug = debug, noise.levels = noise.levels)
   names(mb) = nodes
 
   # check markov blankets for consistency.
@@ -61,7 +61,8 @@ grow.shrink = function(x, cluster = NULL, whitelist, blacklist, test, alpha, B,
   # 2. [Compute Graph Structure]
   mb = smartSapply(cluster, as.list(nodes), neighbour, mb = mb, data = x,
          alpha = alpha, B = B, whitelist = whitelist, blacklist = blacklist,
-         test = test, max.sx = max.sx, complete = complete, debug = debug)
+         test = test, max.sx = max.sx, complete = complete, debug = debug,
+         noise.levels = noise.levels)
   names(mb) = nodes
 
   # check neighbourhood sets for consistency.
@@ -73,7 +74,7 @@ grow.shrink = function(x, cluster = NULL, whitelist, blacklist, test, alpha, B,
 
 gs.markov.blanket = function(x, data, nodes, alpha, B, whitelist, blacklist,
   start = character(0), backtracking = NULL, test, max.sx = ncol(x), complete,
-  debug = FALSE) {
+  debug = FALSE, noise.levels = NULL) {
 
   nodes = nodes[nodes != x]
   known.good = known.bad = c()

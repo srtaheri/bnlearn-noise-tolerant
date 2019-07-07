@@ -15,12 +15,13 @@ pc.stable = function(x, cluster = NULL, whitelist = NULL, blacklist = NULL,
 # Grow-Shrink frontend.
 gs = function(x, cluster = NULL, whitelist = NULL, blacklist = NULL,
     test = NULL, alpha = 0.05, B = NULL, max.sx = NULL, debug = FALSE,
-    optimized = FALSE, strict = FALSE, undirected = FALSE) {
+    optimized = FALSE, strict = FALSE, undirected = FALSE, noise.levels = NULL) {
 
   bnlearn(x = x, cluster = cluster, whitelist = whitelist,
     blacklist = blacklist, test = test, alpha = alpha, B = B,
     max.sx = max.sx, method = "gs", debug = debug,
-    optimized = optimized, strict = strict, undirected = undirected)
+    optimized = optimized, strict = strict, undirected = undirected,
+    noise.levels = noise.levels)
 
 }#GS
 
