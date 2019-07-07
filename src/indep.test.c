@@ -3,7 +3,7 @@
 
 /* independence tests, frontend to be used in R code. */
 SEXP indep_test(SEXP x, SEXP y, SEXP sx, SEXP data, SEXP test, SEXP B,
-    SEXP alpha, SEXP learning, SEXP complete) {
+    SEXP alpha, SEXP learning, SEXP complete, SEXP noise_levels) {
 
   /* if either node to test is not provided, return a zero-length numeric
    * vector. */

@@ -53,7 +53,7 @@ SEXP c_create_htest(double stat, SEXP test, double pvalue, double df, SEXP B);
 
 /* from indep.test.c */
 SEXP indep_test(SEXP x, SEXP y, SEXP sx, SEXP data, SEXP test, SEXP B,
-    SEXP alpha, SEXP learning, SEXP complete);
+    SEXP alpha, SEXP learning, SEXP complete, SEXP noise_levels);
 
 /* conditional independence tests. */
 SEXP utest(SEXP x, SEXP y, SEXP data, SEXP test, SEXP B, SEXP alpha,

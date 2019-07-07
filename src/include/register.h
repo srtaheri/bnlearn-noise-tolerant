@@ -48,7 +48,7 @@ extern SEXP hc_opt_step(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SE
 extern SEXP hc_to_be_added(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP ide_cozman_graph(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP increment_test_counter(SEXP);
-extern SEXP indep_test(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP indep_test(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP is_dag(SEXP, SEXP);
 extern SEXP is_listed(SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP is_pdag_acyclic(SEXP, SEXP, SEXP, SEXP, SEXP);

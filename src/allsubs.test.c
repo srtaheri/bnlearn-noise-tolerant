@@ -651,7 +651,7 @@ SEXP nx, ny, nz = R_NilValue; // noise levels related to variables in xx, yy, an
   /* call indep_test to deal with zero-length conditioning subsets. */
   if (minsize == 0) {
 
-    PVALUE(NUM(indep_test(x, y, fixed, data, test, B, alpha, TRUESEXP, complete)));
+    PVALUE(NUM(indep_test(x, y, fixed, data, test, B, alpha, TRUESEXP, complete, noise_levels)));
 
     if (debuglevel > 0) {
 

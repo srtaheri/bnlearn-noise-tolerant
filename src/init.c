@@ -54,7 +54,7 @@ static const R_CallMethodDef CallEntries[] = {
   CALL_ENTRY(hc_to_be_added, 7),
   CALL_ENTRY(ide_cozman_graph, 8),
   CALL_ENTRY(increment_test_counter, 1),
-  CALL_ENTRY(indep_test, 9),
+  CALL_ENTRY(indep_test, 10),
   CALL_ENTRY(is_dag, 2),
   CALL_ENTRY(is_listed, 5),
   CALL_ENTRY(is_pdag_acyclic, 5),
