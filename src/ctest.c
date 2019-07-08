@@ -66,10 +66,18 @@ int i = 0, ntests = length(xx);
 double transform = 0, statistic = 0, lambda = 0;
 gdata dt = { 0 };
 covariance cov = { 0 }, basecov = { 0 };
+gdata noise_levels = { 0 };
 
   /* allocate and initialize a data table for the variables. */
   dt = gdata_from_SEXP(zz, 2);
   dt.col[1] = REAL(yy);
+  
+  /* allocate and initialize a data table for the noise variables. */
+  if(nz != R_NilValue) {
+    noise_levels = gdata_from_SEXP(nz, 2);
+    noise_levels.col[1] = REAL(yy);
+    noise_levels.col[0] = REAL(xx);
+  }
 
   /* compute the degrees of freedom for correlation and mutual information. */
   if (test == COR)
@@ -98,6 +106,15 @@ covariance cov = { 0 }, basecov = { 0 };
   /* compute the mean values and the covariance matrix. */
   gdata_cache_means(&dt, 1);
   c_covmat(dt.col, dt.mean, dt.m.nobs, dt.m.ncols, cov, 1);
+  
+  /* if noise levels available, subtract them from cov diagonal */
+  if(nz != R_NilValue) {
+    for(int k = 0; k < cov.dim; k++) {
+      double val = *noise_levels.col[k+1]; // we are not considering x in our cov
+      cov.mat[CMC(k, k, cov.dim)] -= val*val;
+    }
+  }
+  
   if (ntests > 1)
     copy_covariance(&cov, &basecov);
 
@@ -112,6 +129,13 @@ covariance cov = { 0 }, basecov = { 0 };
     if (ntests > 1)
       copy_covariance(&basecov, &cov);
     c_update_covmat(dt.col, dt.mean, 0, dt.m.nobs, dt.m.ncols, cov.mat);
+    
+    //if we have noise for x, now we should subtract from the first entry in the
+    //first row of the updated cov matrix
+    if(nz != R_NilValue) {
+      double val = *noise_levels.col[0];
+      cov.mat[CMC(0, 0, cov.dim)] -= val*val;
+    }
 
     if (test == COR) {
 
