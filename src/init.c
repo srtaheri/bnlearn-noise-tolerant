@@ -81,7 +81,7 @@ static const R_CallMethodDef CallEntries[] = {
   CALL_ENTRY(rbn_master, 4),
   CALL_ENTRY(reset_test_counter, 0),
   CALL_ENTRY(root_nodes, 2),
-  CALL_ENTRY(roundrobin_test, 9),
+  CALL_ENTRY(roundrobin_test, 10),
   CALL_ENTRY(score_cache_fill, 13),
   CALL_ENTRY(score_delta, 9),
   CALL_ENTRY(shd, 3),

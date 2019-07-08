@@ -495,7 +495,7 @@ gdata dt = { 0 }, sub = { 0 };
 }/*RRD_GPERM*/
 
 SEXP roundrobin_test(SEXP x, SEXP z, SEXP fixed, SEXP data, SEXP test, SEXP B,
-    SEXP alpha, SEXP complete, SEXP debug) {
+    SEXP alpha, SEXP complete, SEXP debug, SEXP noise_levels) {
 
 int debuglevel = isTRUE(debug);
 double *pvalue = NULL, a = NUM(alpha);
