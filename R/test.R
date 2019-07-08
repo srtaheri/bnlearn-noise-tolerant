@@ -13,7 +13,8 @@ indep.test = function(x, y, sx, data, test, B = 0L, alpha = 1, learning = TRUE,
         B = B,
         alpha = alpha,
         learning = learning,
-        complete = complete)
+        complete = complete,
+        noise_levels = noise.levels)
 
 }#INDEP.TEST
 
@@ -55,7 +56,8 @@ roundrobin.test = function(x, z, fixed, data, test, B = 0L, alpha = 1,
         B = B,
         alpha = alpha,
         complete = complete,
-        debug = debug)
+        debug = debug,
+        noise_levels = noise.levels)
 
 }#ROUNDROBIN.TEST
 
