@@ -109,11 +109,11 @@ ddata dt = { 0 }, sub = { 0 };
 
 /* parametric tests for gaussian variables. */
 static void rrd_gaustests(SEXP xx, SEXP zz, SEXP fixed, SEXP x, test_e test,
-    double *pvalue, double alpha, int debuglevel) {
+    double *pvalue, double alpha, int debuglevel, SEXP nx, SEXP nz) {
 
 int i = 1, cur = 0, df = 0, valid = 0, t = 0, run_svd = TRUE;
 double statistic = 0, lambda = 0;
-gdata dt = { 0 }, sub = { 0 };
+gdata dt = { 0 }, sub = { 0 }, noise_levels = { 0 };
 covariance cov = { 0 }, backup = { 0 };
 
   /* allocate and initialize a data table for the variables. */
@@ -129,11 +129,24 @@ covariance cov = { 0 }, backup = { 0 };
   sub.m.names = Calloc1D(dt.m.ncols, sizeof(char *));
   sub.m.flag = Calloc1D(dt.m.ncols, sizeof(flags));
   sub.mean = Calloc1D(dt.m.ncols, sizeof(double));
-
+  
+  if(nz != R_NilValue) {
+    noise_levels = gdata_from_SEXP(nz, 1);
+    noise_levels.col[0] = REAL(nx);
+  }
+  
   /* allocate the covariance matrix. */
   cov = new_covariance(dt.m.ncols, TRUE);
   backup = new_covariance(dt.m.ncols, TRUE);
   c_covmat(dt.col, dt.mean, dt.m.nobs, dt.m.ncols, cov, 0);
+  
+  /* if noise levels available, subtract them from cov diagonal */
+  if(nz != R_NilValue) {
+    for(int k = 0; k < cov.dim; k++) {
+      double val = *noise_levels.col[k];
+      cov.mat[CMC(k, k, cov.dim)] -= val*val;
+    }
+  }
 
   /* the counter starts at 1 because the first column is the target variable,
    * swapping it does not make sense and would just add a duplicate, redundant
@@ -501,10 +514,16 @@ int debuglevel = isTRUE(debug);
 double *pvalue = NULL, a = NUM(alpha);
 test_e test_type = test_label(CHAR(STRING_ELT(test, 0)));
 SEXP xx, zz, which_fixed, result;
+SEXP nx, nz;
 
   /* extract the variables from the data. */
   PROTECT(xx = c_dataframe_column(data, x, TRUE, FALSE));
   PROTECT(zz = c_dataframe_column(data, z, FALSE, TRUE));
+  
+  /* extract the variables from the noise_levels. */
+  PROTECT(nx = c_dataframe_column(noise_levels, x, TRUE, FALSE));
+  PROTECT(nz = c_dataframe_column(noise_levels, z, FALSE, TRUE));
+  
   /* match fixed variables. */
   PROTECT(which_fixed = match(fixed, z, 0));
   /* allocate the return value. */
@@ -524,7 +543,8 @@ SEXP xx, zz, which_fixed, result;
            (test_type == MI_G_SH)) {
 
     /* parametric tests for Gaussian variables. */
-    rrd_gaustests(xx, zz, which_fixed, x, test_type, pvalue, a, debuglevel);
+    rrd_gaustests(xx, zz, which_fixed, x, test_type, pvalue, a, debuglevel,
+                  nx, nz);
 
   }/*THEN*/
   else if (test_type == MI_CG) {
@@ -551,7 +571,7 @@ SEXP xx, zz, which_fixed, result;
   /* increment the test counter. */
   test_counter += length(zz);
 
-  UNPROTECT(4);
+  UNPROTECT(6);
 
   return result;
 
