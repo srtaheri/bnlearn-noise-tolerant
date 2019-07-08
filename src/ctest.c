@@ -75,8 +75,9 @@ gdata noise_levels = { 0 };
   /* allocate and initialize a data table for the noise variables. */
   if(nz != R_NilValue) {
     noise_levels = gdata_from_SEXP(nz, 2);
-    noise_levels.col[1] = REAL(yy);
-    noise_levels.col[0] = REAL(xx);
+    noise_levels.col[1] = REAL(ny);
+    noise_levels.col[0] = REAL(nx);
+    
   }
 
   /* compute the degrees of freedom for correlation and mutual information. */
@@ -109,8 +110,8 @@ gdata noise_levels = { 0 };
   
   /* if noise levels available, subtract them from cov diagonal */
   if(nz != R_NilValue) {
-    for(int k = 0; k < cov.dim; k++) {
-      double val = *noise_levels.col[k+1]; // we are not considering x in our cov
+    for(int k = 1; k < cov.dim; k++) {
+      double val = *noise_levels.col[k]; // we are not considering x in our cov
       cov.mat[CMC(k, k, cov.dim)] -= val*val;
     }
   }
@@ -174,6 +175,7 @@ gdata noise_levels = { 0 };
   FreeCOV(basecov);
   FreeCOV(cov);
   FreeGDT(dt, FALSE);
+  FreeGDT(noise_levels, FALSE);
 
   return statistic;
 
@@ -753,9 +755,9 @@ SEXP nx, ny, nz;
   nobs = length(yy);
   
   /* extract the variables from the noise_levels. */
-  PROTECT(nx = c_dataframe_column(noise_levels, x, FALSE, FALSE));
+  PROTECT(nx = c_dataframe_column(noise_levels, x, TRUE, FALSE));
   PROTECT(ny = c_dataframe_column(noise_levels, y, TRUE, FALSE));
-  PROTECT(nz = c_dataframe_column(noise_levels, sx, FALSE, FALSE));
+  PROTECT(nz = c_dataframe_column(noise_levels, sx, FALSE, TRUE));
 
   /* extract the missing values indicators. */
   PROTECT(cc = subset_by_name(complete, 3, y, x, sx));
