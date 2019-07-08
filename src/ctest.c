@@ -60,7 +60,7 @@ SEXP xdata, config;
 
 /* parametric tests for Gaussian variables. */
 static double ct_gaustests_complete(SEXP xx, SEXP yy, SEXP zz, double *pvalue,
-    double *df, test_e test) {
+    double *df, test_e test, SEXP nx, SEXP ny, SEXP nz) {
 
 int i = 0, ntests = length(xx);
 double transform = 0, statistic = 0, lambda = 0;
@@ -747,7 +747,8 @@ SEXP nx, ny, nz;
 
     /* parametric tests for Gaussian variables. */
     if (all_equal(cc, TRUESEXP))
-      statistic = ct_gaustests_complete(xx, yy, zz, pvalue, &df, test_type);
+      statistic = ct_gaustests_complete(xx, yy, zz, pvalue, &df, test_type,
+                                        nx, ny, nz);
     else
       statistic = ct_gaustests_with_missing(xx, yy, zz, pvalue, &df, test_type);
 
