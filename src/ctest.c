@@ -799,7 +799,7 @@ SEXP nx, ny, nz;
 
   }/*THEN*/
 
-  UNPROTECT(5);
+  UNPROTECT(8);
 
   /* catch-all for unknown tests (after deallocating memory.) */
   if (test_type == ENOTEST)
