@@ -713,6 +713,7 @@ double *pvalue = NULL, statistic = 0, df = NA_REAL;
 const char *t = CHAR(STRING_ELT(test, 0));
 test_e test_type = test_label(t);
 SEXP xx, yy, zz, cc, result;
+SEXP nx, ny, nz;
 
   /* allocate the return value, which the same length as x. */
   PROTECT(result = allocVector(REALSXP, ntests));
@@ -726,6 +727,11 @@ SEXP xx, yy, zz, cc, result;
   PROTECT(yy = c_dataframe_column(data, y, TRUE, FALSE));
   PROTECT(zz = c_dataframe_column(data, sx, FALSE, FALSE));
   nobs = length(yy);
+  
+  /* extract the variables from the noise_levels. */
+  PROTECT(nx = c_dataframe_column(noise_levels, x, FALSE, FALSE));
+  PROTECT(ny = c_dataframe_column(noise_levels, y, TRUE, FALSE));
+  PROTECT(nz = c_dataframe_column(noise_levels, sx, FALSE, FALSE));
 
   /* extract the missing values indicators. */
   PROTECT(cc = subset_by_name(complete, 3, y, x, sx));
