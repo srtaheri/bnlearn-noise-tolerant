@@ -14,6 +14,6 @@ SEXP indep_test(SEXP x, SEXP y, SEXP sx, SEXP data, SEXP test, SEXP B,
   if (length(sx) == 0 || sx == R_NilValue)
     return utest(x, y, data, test, B, alpha, learning, complete);
   else
-    return ctest(x, y, sx, data, test, B, alpha, learning, complete);
+    return ctest(x, y, sx, data, test, B, alpha, learning, complete, noise_levels);
 
 }/*INDEP_TEST*/

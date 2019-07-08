@@ -706,7 +706,7 @@ gdata dt = { 0 };
 
 /* conditional independence tests. */
 SEXP ctest(SEXP x, SEXP y, SEXP sx, SEXP data, SEXP test, SEXP B, SEXP alpha,
-    SEXP learning, SEXP complete) {
+    SEXP learning, SEXP complete, SEXP noise_levels) {
 
 int ntests = length(x), nobs = 0;
 double *pvalue = NULL, statistic = 0, df = NA_REAL;
