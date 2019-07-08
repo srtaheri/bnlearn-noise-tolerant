@@ -430,7 +430,7 @@ double statistic = 0;
 
 /* unconditional independence tests. */
 SEXP utest(SEXP x, SEXP y, SEXP data, SEXP test, SEXP B, SEXP alpha,
-    SEXP learning, SEXP complete, SEXP noise_levels) {
+    SEXP learning, SEXP complete) {
 
 int ntests = length(x), nobs = 0;
 double *pvalue = NULL, statistic = 0, df = NA_REAL;

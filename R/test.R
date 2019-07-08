@@ -13,8 +13,7 @@ indep.test = function(x, y, sx, data, test, B = 0L, alpha = 1, learning = TRUE,
         B = B,
         alpha = alpha,
         learning = learning,
-        complete = complete,
-        noise_levels = noise.levels)
+        complete = complete)
 
 }#INDEP.TEST
 
