@@ -32,7 +32,7 @@ ham_dist_btw_matrices <- function(matrix_one, matrix_two) {
 ###################### Experiment 1 - Tree with 16 nodes ###################################################
 # Add different noise levels to nodes in the network
 set.seed(1)
-setwd("/Users/sarataheri/GitHub/bnlearn/exp")
+setwd("C:/Users/Ehsan/Documents/GitHub/bnlearn_forked/exp/")
 data_t16 <- readRDS("data_t16.RData")
 g_t16 <- readRDS("g_t16.RData")
 mat_true <- as.matrix(as_adj(g_t16)) + t(as.matrix(as_adj(g_t16))) # true network adjacency matrix
@@ -103,8 +103,8 @@ for (geneVar in colnames(CHDI_gexpr)) {
   sum_length_mid = 0
 }
 # create noise levels
-geneVar_noise_level <- t(rbind(data.frame("nLevel" = geneVar_noise_level),
-                               data.frame("nLevel" = rep(0,147))))
+geneVar_noise_level <- data.frame(t(rbind(data.frame("nLevel" = geneVar_noise_level),
+                               data.frame("nLevel" = rep(0,147)))))
 colnames(geneVar_noise_level) <- colnames(CHDI)[4:ncol(CHDI)]
 
 data <- CHDI[,seq(4,ncol(CHDI))]
@@ -115,3 +115,11 @@ pdag_n_cancel <- mmpc(data,
                            )
 end_time <- Sys.time()
 end_time - start_time
+
+TruePositives_n_cancelled <- c()
+
+for (geneVar in colnames(CHDI_gexpr)) {
+  protVar <- str_replace(geneVar,"_gexpr","_prot")
+  if(protVar %in% ((pdag_n_cancel$nodes)[geneVar][[1]][1][[1]]))
+    TruePositives_n_cancelled <- c(TruePositives_n_cancelled, c(geneVar,protVar))
+}
